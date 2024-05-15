@@ -1,43 +1,70 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  // This widget is the root of your application.
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
-      theme: ThemeData(
-        // useMaterial3: false,
-        primarySwatch: Colors.blue,
+      debugShowCheckedModeBanner: false,
+      title: "Material App",
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Nike Calzado"),
+        ),
+        body: const ShowSheet(),
       ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({super.key, required this.title});  
+class ShowSheet extends StatelessWidget {
+  const ShowSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text(
-          'Hello, World!',
-        ),
-      ),
+    return ListView(
+      children: [
+        ListTile(
+          leading: const Icon(
+            Icons.android_outlined,
+            size: 40.0,
+            color: Color(0xfff63434),
+          ),
+          title: const Text("Mas informacion"),
+          subtitle: const Text("Toca para ver mas..."),
+          trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {
+            _mySheet(context);
+          },
+        )
+      ],
     );
+  }
+
+  _mySheet(BuildContext context) {
+    List myList = List.generate(50, (i) => i);
+
+    showModalBottomSheet(
+        barrierColor: Colors.black54,
+        backgroundColor: Color(0xff36b8f4),
+        isDismissible: false,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32))),
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 500.0,
+            child: ListView.builder(
+              itemCount: myList.length,
+              itemBuilder: (_, i) => ListTile(
+                title: Text(myList[i].toString()),
+              ),
+            ),
+          );
+        });
   }
 }
